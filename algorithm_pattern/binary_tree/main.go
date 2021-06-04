@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+/*
+二叉树
+*/
 
 type TreeNode struct {
 	Val   int
@@ -78,15 +84,15 @@ func postorderTraversal(root *TreeNode) []int {
 			stack = append(stack, root)
 			root = root.Left
 		}
-	}
-	// root pop after node
-	node := stack[len(stack)-1]
-	if node.Right == nil || node.Right == lastVisit {
-		result = append(result, node.Val)
-		stack = stack[:len(stack)-1]
-		lastVisit = node
-	} else {
-		root = node.Right
+		// root after pop node
+		node := stack[len(stack)-1]
+		if node.Right == nil || node == lastVisit {
+			result = append(result, node.Val)
+			stack = stack[:len(stack)-1]
+			lastVisit = node
+		} else {
+			root = node.Right
+		}
 	}
 	return result
 }
@@ -106,7 +112,7 @@ func dfs(root *TreeNode, result *[]int) {
 func divideAndConquer(root *TreeNode) []int {
 	result := make([]int, 0)
 	if root == nil {
-		return nil
+		return result
 	}
 	// 分治
 	left := divideAndConquer(root.Left)
@@ -146,6 +152,154 @@ func levelOrder(root *TreeNode) []int {
 	return result
 }
 
-func main() {
+// 分治法
 
+// 归并排序(分治法)
+func mergeSort(nums []int) []int {
+	if len(nums) <= 1 {
+		return nums
+	}
+	mid := len(nums) / 2
+	left := mergeSort(nums[:mid])
+	right := mergeSort(nums[mid:])
+	result := merge(left, right)
+	return result
+}
+
+func merge(left, right []int) []int {
+	result := make([]int, 0)
+	l := 0
+	r := 0
+	for l < len(left) && r < len(right) {
+		if left[l] < right[r] {
+			result = append(result, left[l])
+		} else {
+			result = append(result, right[r])
+		}
+	}
+	result = append(result, left...)
+	result = append(result, right...)
+	return result
+}
+
+// 快速排序(分治法)
+func QuickSort(nums []int) []int {
+	quickSort(nums, 0, len(nums)-1)
+	return nums
+}
+
+func quickSort(nums []int, start, end int) {
+	if start < end {
+		pivot := partition(nums, start, end)
+		quickSort(nums, 0, pivot-1)
+		quickSort(nums, pivot+1, end)
+	}
+}
+
+func partition(nums []int, start, end int) int {
+	p := nums[end]
+	i := start
+	for j := start; j < end; j++ {
+		if nums[j] < p {
+			swap(nums, i, j)
+			i++
+		}
+	}
+	swap(nums, end, i)
+	return i
+}
+
+func swap(nums []int, i, j int) {
+	t := nums[i]
+	nums[i] = nums[j]
+	nums[j] = t
+}
+
+// 给一个二叉树，找出其最大深度(分治法)
+func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	left := maxDepth(root.Left)
+	right := maxDepth(root.Right)
+	if left > right {
+		return left + 1
+	} else {
+		return right + 1
+	}
+}
+
+// 判断是否高度平衡的二叉树(分治法)
+func isBalanced(root *TreeNode) bool {
+	if maxDepth2(root) == -1 {
+		return false
+	}
+	return true
+}
+
+func maxDepth2(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+
+	left := maxDepth2(root.Left)
+	right := maxDepth2(root.Right)
+
+	if left == -1 || right == -1 || left-right > 1 || right-left > 1 {
+		return -1
+	}
+
+	if left > right {
+		return left + 1
+	}
+	return right + 1
+}
+
+// 计算非空二叉树最大路径和(分治法)
+// https://greyireland.gitbook.io/algorithm-pattern/shu-ju-jie-gou-pian/binary_tree#binary-tree-maximum-path-sum
+type ResultType struct {
+	SinglePath int // 单边最大值
+	MaxPath    int // 保存最大值
+}
+
+func maxPathSum(root *TreeNode) int {
+	result := helper(root)
+	return result.MaxPath
+}
+
+func helper(root *TreeNode) ResultType {
+	if root == nil {
+		return ResultType{
+			SinglePath: 0,
+			MaxPath:    -(1 << 31),
+		}
+	}
+	left := helper(root.Left)
+	right := helper(root.Right)
+
+	result := ResultType{}
+	if left.SinglePath > right.SinglePath {
+		result.SinglePath = max(left.SinglePath+root.Val, 0)
+	} else {
+		result.SinglePath = max(right.SinglePath+root.Val, 0)
+	}
+
+	maxPath := max(left.MaxPath, right.MaxPath)
+	result.MaxPath = max(maxPath, left.SinglePath+right.SinglePath+root.Val)
+	return result
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	} else {
+		return b
+	}
+}
+
+func main() {
+	nums := []int{1, 9, 5, 7, 8, 6}
+	res := QuickSort(nums)
+	fmt.Println(res)
 }
