@@ -152,7 +152,17 @@ func levelOrder(root *TreeNode) []int {
 	return result
 }
 
-// 分治法
+/* 分治法
+应用场景
+	快速排序
+	归并排序
+	二叉树相关问题
+
+分治法模板
+	递归返回条件
+	分段处理
+	合并结果
+*/
 
 // 归并排序(分治法)
 func mergeSort(nums []int) []int {
@@ -257,10 +267,9 @@ func maxDepth2(root *TreeNode) int {
 }
 
 // 计算非空二叉树最大路径和(分治法)
-// https://greyireland.gitbook.io/algorithm-pattern/shu-ju-jie-gou-pian/binary_tree#binary-tree-maximum-path-sum
 type ResultType struct {
-	SinglePath int // 单边最大值
-	MaxPath    int // 保存最大值
+	SinglePath int
+	MaxPath    int
 }
 
 func maxPathSum(root *TreeNode) int {
@@ -275,6 +284,7 @@ func helper(root *TreeNode) ResultType {
 			MaxPath:    -(1 << 31),
 		}
 	}
+
 	left := helper(root.Left)
 	right := helper(root.Right)
 
@@ -293,13 +303,35 @@ func helper(root *TreeNode) ResultType {
 func max(a, b int) int {
 	if a > b {
 		return a
-	} else {
-		return b
 	}
+	return b
+}
+
+// 寻找两个指定节点的最近公共祖先
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+		return root
+	}
+
+	if root == p || root == q {
+		return root
+	}
+
+	left := lowestCommonAncestor(root.Left, p, q)
+	right := lowestCommonAncestor(root.Right, p, q)
+
+	if left != nil && right != nil {
+		return root
+	}
+	if left != nil {
+		return left
+	}
+	if right != nil {
+		return right
+	}
+	return nil
 }
 
 func main() {
-	nums := []int{1, 9, 5, 7, 8, 6}
-	res := QuickSort(nums)
-	fmt.Println(res)
+
 }
