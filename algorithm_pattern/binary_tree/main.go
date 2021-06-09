@@ -338,7 +338,7 @@ BFS层次应用
 // 二叉树自底向上的层次遍历。层次遍历完成后逆序即可
 
 // 二叉树 Z字形遍历
-func zigzagLevelOrder(root *TreeNode) [][]int {
+func zigzagLeveOrder(root *TreeNode) [][]int {
 	result := make([][]int, 0)
 	if root == nil {
 		return result
@@ -348,8 +348,8 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 	toggle := false
 
 	for len(queue) > 0 {
-		l := len(queue)
 		list := make([]int, 0)
+		l := len(queue)
 		for i := 0; i < l; i++ {
 			node := queue[0]
 			queue = queue[1:]
@@ -364,20 +364,122 @@ func zigzagLevelOrder(root *TreeNode) [][]int {
 		if toggle {
 			reverse(list)
 		}
-		result = append(result)
+		result = append(result, list)
 		toggle = !toggle
 	}
 	return result
 }
 
-func reverse(queue []int) {
-	for i := 0; i < len(queue)/2; i++ {
-		queue[i], queue[len(queue)-i-1] = queue[len(queue)-i-1], queue[i]
+func reverse(list []int) {
+	for i := 0; i < len(list)/2; i++ {
+		list[i], list[len(list)-1-i] = list[len(list)-1-i], list[i]
 	}
 }
 
-// https://greyireland.gitbook.io/algorithm-pattern/shu-ju-jie-gou-pian/binary_tree#er-cha-sou-suo-shu-ying-yong
+/*
+二叉搜索树的应用
+*/
+
+// 判断是否二叉搜索树
+// v1. 中序遍历  然后判断是否递增数列
+func isValidBST(root *TreeNode) bool {
+	result := make([]int, 0)
+	inOrder(root, &result)
+	for i := 0; i < len(result)-1; i++ {
+		if result[i] >= result[i+1] {
+			return false
+		}
+	}
+	return true
+
+}
+
+func inOrder(root *TreeNode, result *[]int) {
+	if root == nil {
+		return
+	}
+	inOrder(root.Left, result)
+	*result = append(*result, root.Val)
+	inOrder(root.Right, result)
+}
+
+// v2. 分治。判断左MAX<根<右MIN
+type ResultType2 struct {
+	IsValid bool
+	Max     *TreeNode
+	Min     *TreeNode
+}
+
+func isValidBST2(root *TreeNode) bool {
+	result := helper2(root)
+	return result.IsValid
+}
+
+func helper2(root *TreeNode) ResultType2 {
+	result := ResultType2{}
+	if root == nil {
+		result.IsValid = true
+		return result
+	}
+
+	left := helper2(root.Left)
+	right := helper2(root.Right)
+
+	// 判断isValid
+	if !left.IsValid || !right.IsValid {
+		result.IsValid = false
+		return result
+	}
+	if left.Max != nil && left.Max.Val >= root.Val {
+		result.IsValid = false
+		return result
+	}
+	if right.Min != nil && right.Min.Val <= root.Val {
+		result.IsValid = false
+		return result
+	}
+	result.IsValid = true
+
+	// update result max/min
+	result.Min = root
+	if left.Min != nil {
+		result.Min = left.Min
+	}
+	result.Max = root
+	if right.Max != nil {
+		result.Max = right.Max
+	}
+	return result
+}
+
+// 更新二叉搜索树(插入)
+func insertBST(root *TreeNode, val int) *TreeNode {
+	if root == nil {
+		node := &TreeNode{
+			Val: val,
+		}
+		return node
+	}
+
+	if val > root.Val {
+		root.Right = insertBST(root.Right, val)
+	} else {
+		root.Left = insertBST(root.Left, val)
+	}
+	return root
+}
 
 func main() {
-
+	root := TreeNode{
+		Val: 5,
+	}
+	left := TreeNode{
+		Val: -2,
+	}
+	right := TreeNode{
+		Val: 6,
+	}
+	root.Left = &left
+	root.Right = &right
+	fmt.Println(maxPathSum(&root))
 }
