@@ -307,7 +307,19 @@ func max(a, b int) int {
 	return b
 }
 
-// 寻找两个指定节点的最近公共祖先
+// 寻找两个指定节点的最近公共祖先func maxDepth(root *TreeNode) int {
+//	if root == nil {
+//		return 0
+//	}
+//	left := maxDepth(root.Left)
+//	right := maxDepth(root.Right)
+//
+//	if left > right {
+//		return left + 1
+//	} else {
+//		return right + 1
+//	}
+//}
 func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	if root == nil {
 		return root
