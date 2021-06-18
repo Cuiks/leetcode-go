@@ -40,6 +40,6 @@ func Max(a, b int) int {
 }
 
 func main() {
-	heights := []int{2, 1, 5, 6, 2, 3}
+	heights := []int{1, 1}
 	fmt.Println(largestRectangleArea(heights))
 }

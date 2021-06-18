@@ -259,6 +259,7 @@ func largestRectangleArea(heights []int) int {
 			}
 			max = Max(max, h*w)
 		}
+		stack = append(stack, i)
 	}
 	return max
 
