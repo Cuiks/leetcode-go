@@ -3,8 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	a := []int{1, 2, 3}
-	for i, value := range a {
-		fmt.Println(i, value)
-	}
+	fmt.Println("1008526">"9999")
 }
