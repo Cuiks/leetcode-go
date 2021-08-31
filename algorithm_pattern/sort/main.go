@@ -67,7 +67,7 @@ func merge(left, right []int) []int {
 }
 
 // 堆排序
-func HeadSort(nums []int) []int {
+func HeapSort(nums []int) []int {
 	for i := len(nums)/2 - 1; i >= 0; i-- {
 		sink(nums, i, len(nums))
 	}
@@ -99,5 +99,4 @@ func sink(nums []int, i, length int) {
 }
 
 func main() {
-
 }
