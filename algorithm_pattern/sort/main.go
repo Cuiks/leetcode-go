@@ -17,7 +17,7 @@ func quickSort(nums []int, start, end int) {
 func partition(nums []int, start, end int) int {
 	i := start
 	p := nums[end]
-	for j := 0; j < end; j++ {
+	for j := start; j < end; j++ {
 		if nums[j] < p {
 			swap(nums, i, j)
 			i++
