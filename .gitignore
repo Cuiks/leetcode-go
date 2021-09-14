@@ -96,3 +96,4 @@ modules.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/jetbrains+all
 algorithm_new/
+/answer-other/

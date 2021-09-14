@@ -24,4 +24,7 @@ func main() {
 	inputReader := bufio.NewReader(os.Stdin)
 	input, _ := inputReader.ReadString('\n')
 	fmt.Println(getLen(input))
+	var name string
+	fmt.Scanln(&name)
+
 }
