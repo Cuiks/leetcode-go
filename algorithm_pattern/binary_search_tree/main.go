@@ -23,9 +23,10 @@ func dfs(root *TreeNode) ResultType {
 	result := ResultType{
 		min:   math.MaxInt64,
 		max:   math.MinInt64,
-		valid: true,
+		valid: false,
 	}
 	if root == nil {
+		result.valid = true
 		return result
 	}
 

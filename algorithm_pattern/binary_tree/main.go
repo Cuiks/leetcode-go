@@ -86,7 +86,7 @@ func postorderTraversal(root *TreeNode) []int {
 		}
 		// root after pop node
 		node := stack[len(stack)-1]
-		if node.Right == nil || node == lastVisit {
+		if node.Right == nil || node.Right == lastVisit {
 			result = append(result, node.Val)
 			stack = stack[:len(stack)-1]
 			lastVisit = node

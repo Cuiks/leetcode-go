@@ -1,6 +1,9 @@
 package main
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 // 获取无重复数组所有子集
 func subsets(nums []int) [][]int {
@@ -104,5 +107,5 @@ func backtrack4(nums []int, visited map[int]bool, list []int, result *[][]int) {
 }
 
 func main() {
-
+	fmt.Println(subsets([]int{1, 2, 3, 4, 5, 6, 7}))
 }
