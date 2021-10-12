@@ -273,7 +273,7 @@ func Max(a, b int) int {
 }
 
 /*
-Queue 队列
+	Queue 队列
 */
 // 使用栈实现队列
 type MyQueue struct {

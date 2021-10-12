@@ -187,8 +187,8 @@ func merge(left, right []int) []int {
 			result = append(result, right[r])
 		}
 	}
-	result = append(result, left...)
-	result = append(result, right...)
+	result = append(result, left[l:]...)
+	result = append(result, right[r:]...)
 	return result
 }
 
